@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ecosystem Simulator - Fletcher v2025.06.16</title>
+    <!-- <link rel="stylesheet" href="style.css"> --> <!-- Uncomment if you have a style.css -->
+    <style>
+        body { font-family: Arial, sans-serif; margin: 10px; background-color: #f0f2f5; color: #333; font-size: 14px; }
+        h1, h2 { color: #1a2533; margin-top: 0.5em; margin-bottom: 0.5em; }
+        button { padding: 8px 15px; margin: 5px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
+        button:hover { background-color: #0056b3; }
+        select, input[type="number"], input[type="checkbox"] { padding: 8px; margin-right: 5px; border-radius: 4px; border: 1px solid #ccc; vertical-align: middle; }
+        label { margin-right: 10px; vertical-align: middle;}
+        .container { margin-bottom: 15px; padding: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .mapCanvas { border: 1px solid #d1d9e6; margin: 3px; display: inline-block; vertical-align: top;}
+        .cache-item { padding: 3px 0; border-bottom: 1px solid #eee; }
+        .cache-item:last-child { border-bottom: none; }
+        #mapsContainer h2, #compositeMapContainer h2, #cache h2 { margin-top: 0; }
+        #periodicActionCountdownDisplay { font-size: 1.1em; font-weight: bold; color: #c0392b; }
+        #currentDonationsDisplay ul { list-style-type: none; padding-left: 0;}
+        #activityLogDisplay ul { list-style-type: none; padding-left: 0;}
+    </style>
+</head>
+<body>
+    <h1>Ecosystem Simulator</h1>
+
+    <div id="controls" class="container">
+        <h2>Global Controls</h2>
+        <button id="stressBtn">Apply Global Stress</button>
+        <button id="healBtn">Apply Global Heal</button>
+    </div>
+
+    <div id="periodicActionCountdownDisplay" class="container">
+        Next Action in: --:--
+    </div>
+
+    <div id="healingActions" class="container">
+        <h2>Heal the Forest Actions</h2>
+        <div>
+            <input type="checkbox" id="screenTimeToggle" name="screenTime">
+            <label for="screenTimeToggle">Limit My Screen Time (Gentle Global Heal)</label>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="charityTypeSelect">Donate to Charity (Targeted Heal):</label>
+            <select id="charityTypeSelect">
+                <option value="water">AquaRevive Foundation (Water)</option>
+                <option value="soil">TerraNova Soil Care (Soil)</option>
+                <option value="trees">GreenSpire Reforestation (Trees)</option>
+                <option value="air">AtmoPure Conservancy (Air)</option>
+            </select>
+            <label for="donationAmountInput">Amount ($):</label>
+            <input type="number" id="donationAmountInput" value="0" min="0" style="width: 60px;">
+            <button id="addDonationBtn">Set/Update Donation</button>
+        </div>
+        <div id="currentDonationsDisplay" style="margin-top: 10px;">
+            <p><strong>Active Donations (per interval):</strong></p><ul><li>None</li></ul>
+        </div>
+    </div>
+
+    <div id="activityLogDisplay" class="container">
+        <p>Initializing activity monitor...</p>
+    </div>
+
+    <div id="manualLogControls" class="container">
+        <p><strong>Manual Activity Triggers (for testing logger):</strong></p>
+        <button id="simPageViewBtn">Sim: Page View</button>
+        <button id="simSearchBtn">Sim: Search/LLM</button>
+        <button id="simMediaBtn">Sim: Stream 10min Media</button>
+        <button id="startAutoSimBtn">Start Auto-Activity (5s)</button>
+        <button id="stopAutoSimBtn">Stop Auto-Activity</button>
+    </div>
+
+    <div id="compositeMapContainer" class="container">
+        <h2>Composite Ecosystem Map</h2>
+        <canvas id="compositeMapCanvas" class="mapCanvas"></canvas>
+    </div>
+
+    <div id="mapsContainer" class="container">
+        <h2>Individual Layer Maps</h2>
+        <div id="maps"></div>
+    </div>
+
+    <div id="cache" class="container">
+        <h2>Ecosystem Stats</h2>
+    </div>
+
+    <script src="activityLogger.js"></script>
+    <script src="userActions.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
